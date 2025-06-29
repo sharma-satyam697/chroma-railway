@@ -1,28 +1,25 @@
-# Start from the official Chroma image
-FROM chromadb/chroma:latest
+# Use an official Python image
+FROM python:3.10-slim
 
 # Set environment variables
 ENV IS_PERSISTENT=TRUE \
     PERSIST_DIRECTORY=/data \
     ANONYMIZED_TELEMETRY=FALSE
 
-# Ensure /data directory exists
-RUN mkdir -p /data
-
-# Set working directory
+# Create a working directory
 WORKDIR /app
 
-# Copy requirement files
+# Copy requirements.txt
 COPY requirements.txt .
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Optional: copy rest of your code if needed
-# COPY . .
+# Make sure /data directory exists
+RUN mkdir -p /data
 
-# Expose port
+# Expose the Chroma default port
 EXPOSE 8000
 
-# Default command
+# Start the Chroma server
 CMD ["chromadb"]
