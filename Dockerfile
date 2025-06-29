@@ -9,10 +9,19 @@ ENV IS_PERSISTENT=TRUE \
 # Ensure /data directory exists
 RUN mkdir -p /data
 
-# Working directory
-WORKDIR /data
+# Set working directory
+WORKDIR /app
 
-# Expose Chroma port
+# Copy requirement files
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Optional: copy rest of your code if needed
+# COPY . .
+
+# Expose port
 EXPOSE 8000
 
 # Default command
